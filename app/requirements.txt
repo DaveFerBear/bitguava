@@ -1,2 +1,3 @@
 gunicorn==19.7.1
 heroku==0.1.4
+yahoo-finance==1.4.0
