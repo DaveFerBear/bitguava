@@ -1,9 +1,7 @@
 from flask import Flask
-from extractors import yahoo
+
 
 app = Flask(__name__)
-if __name__ == "__main__":
-	app.run()
 
 @app.route('/')
 def index():
@@ -11,4 +9,9 @@ def index():
 
 @app.route('/yahoo')
 def yahoo_test():
-	return yahoo.getData('YHOO', '2014-04-25', '2014-04-29')
+	from extractors.yahoo import yahoo
+	return str(yahoo.getData('YHOO', '2014-04-25', '2014-04-29'))
+
+#MUST BE AT END OF FILE
+if __name__ == "__main__":
+	app.run()
