@@ -1,7 +1,7 @@
 from scipy import signal
 import numpy as np
 
-def smooth_convolution(time_series, window_type='hann', window_size=10):
+def smooth_convolution(time_series, window_type='hann', window_size=10, fft=False):
 	window = [1] #Unit Impluse
 	if window_type=='hann':
 		window = signal.hann(window_size)
@@ -10,6 +10,6 @@ def smooth_convolution(time_series, window_type='hann', window_size=10):
 	else:
 		raise NameError('Window Type \''+window_type+'\' is not supported!')
 	print(window)
+	if fft:
+		return signal.fftconvolve(sig, window, mode='same') / sum(window)
 	return signal.convolve(sig, window, mode='same') / sum(window)
-
-smooth_convolution([x for x in range(100)], 'triangle', window_size=2)
