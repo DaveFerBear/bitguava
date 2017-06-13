@@ -1,24 +1,15 @@
 from scipy import signal
 import numpy as np
 
-sig = np.repeat([0., 1., 0.], 100)
-win = signal.hann(50)
-filtered = signal.convolve(sig, win, mode='same') / sum(win)
+def smooth_convolution(time_series, window_type='hann', window_size=10):
+	window = [1] #Unit Impluse
+	if window_type=='hann':
+		window = signal.hann(window_size)
+	elif window_type=='triangle':
+		window = range(0,window_size/2)+range(window_size/2,-1,-1)
+	else:
+		raise NameError('Window Type \''+window_type+'\' is not supported!')
+	print(window)
+	return signal.convolve(sig, window, mode='same') / sum(window)
 
-import matplotlib.pyplot as plt
-
-fig, (ax_orig, ax_win, ax_filt) = plt.subplots(3, 1, sharex=True)
-ax_orig.plot(sig)
-ax_orig.set_title('Original pulse')
-ax_orig.margins(0, 0.1)
-ax_win.plot(win)
-ax_win.set_title('Filter impulse response')
-ax_win.margins(0, 0.1)
-ax_filt.plot(filtered)
-ax_filt.set_title('Filtered signal')
-ax_filt.margins(0, 0.1)
-fig.tight_layout()
-fig.show()
-
-import time
-time.sleep(5)
+smooth_convolution([x for x in range(100)], 'triangle', window_size=2)
